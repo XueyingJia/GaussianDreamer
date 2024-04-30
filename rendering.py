@@ -35,13 +35,13 @@ system_config = {
         "max_step_percent": 0.98,
         "grad_clip": [0, 1.5, 2.0, 1000]
     },
-    "loggers": {
-        "wandb": {
-            "enable": False,
-            "project": "threestudio",
-            "name": None
-        }
-    },
+    # "loggers": {
+    #     "wandb": {
+    #         "enable": False,
+    #         "project": "threestudio",
+    #         "name": None
+    #     }
+    # },
     "loss": {
         "lambda_sds": 1.0,
         "lambda_sparsity": 1.0,
