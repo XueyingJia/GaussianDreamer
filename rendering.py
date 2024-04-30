@@ -19,7 +19,7 @@ normals = np.asarray(point_cloud.normals)
 pcd = BasicPointCloud(points, colors, normals)
 
 
-dreamer = GaussianDreamer()
+dreamer = GaussianDreamer(GaussianDreamer.Config())
 dreamer.configure()
 dreamer.gaussian.create_from_pcd(pcd)
 ###### or #####
