@@ -1,6 +1,7 @@
 import open3d as o3d
 from typing import NamedTuple
 import numpy as np
+from dataclasses import asdict
 
 
 class BasicPointCloud(NamedTuple):
@@ -18,8 +19,9 @@ normals = np.asarray(point_cloud.normals)
 
 pcd = BasicPointCloud(points, colors, normals)
 
-
-dreamer = GaussianDreamer(GaussianDreamer.Config())
+dreamer_config = GaussianDreamer.Config()
+config_dict = asdict(dreamer_config)
+dreamer = GaussianDreamer(config_dict)
 dreamer.configure()
 dreamer.gaussian.create_from_pcd(pcd)
 ###### or #####
