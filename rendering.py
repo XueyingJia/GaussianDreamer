@@ -113,7 +113,9 @@ config_dict = asdict(config_instance)
 
 print(config_dict)
 
-loader = RandomCameraDataModule(config_dict).val_dataloader()
+random_camera_data_module = RandomCameraDataModule(config_dict)
+random_camera_data_module.setup('validate')
+loader = random_camera_data_module.val_dataloader()
 for batch in loader:
     images = dreamer.forward(batch)['comp_rgb']
     print(images)
