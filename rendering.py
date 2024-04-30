@@ -2,6 +2,8 @@ import open3d as o3d
 from typing import NamedTuple
 import numpy as np
 from dataclasses import asdict
+from dataclasses import dataclass, field, asdict
+from typing import Any, List, Tuple
 
 
 class BasicPointCloud(NamedTuple):
@@ -57,6 +59,39 @@ system_config = {
     }
 }
 
+class RandomCameraDataModuleConfig:
+    # height, width, and batch_size should be Union[int, List[int]]
+    # but OmegaConf does not support Union of containers
+    height: Any = 512
+    width: Any = 512
+    batch_size: Any = 1
+    resolution_milestones: List[int] = field(default_factory=lambda: [])
+    eval_height: int = 512
+    eval_width: int = 512
+    eval_batch_size: int = 1
+    n_val_views: int = 1
+    n_test_views: int = 120
+    elevation_range: Tuple[float, float] = (-10, 60)
+    azimuth_range: Tuple[float, float] = (-180, 180)
+    camera_distance_range: Tuple[float, float] = (4.,6.)
+    fovy_range: Tuple[float, float] = (
+        40,
+        70,
+    )  # in degrees, in vertical direction (along height)
+    camera_perturb: float = 0.
+    center_perturb: float = 0.
+    up_perturb: float = 0.0
+    light_position_perturb: float = 1.0
+    light_distance_range: Tuple[float, float] = (0.8, 1.5)
+    eval_elevation_deg: float = 15.0
+    eval_camera_distance: float = 6.
+    eval_fovy_deg: float = 70.0
+    light_sample_strategy: str = "dreamfusion"
+    batch_uniform_azimuth: bool = True
+    progressive_until: int = 0  # progressive ranges for elevation, azimuth, r, fovy
+    load_type: int = 0
+
+
 
 point_cloud = o3d.io.read_point_cloud("/home/cyan/threestudio/outputs/gs-sds-generation/a_staircase_in_a_small_white_building,_featuring_a_white_pedestal,_a_white_box_on_a_table,_and_recessed_ceiling_lights.@20240425-230712/save/point_cloud.ply")
 colors = np.asarray(point_cloud.colors)
@@ -70,8 +105,14 @@ dreamer.configure()
 dreamer.gaussian.create_from_pcd(pcd, 0)
 ###### or #####
 # dreamer.gaussian.load_ply("....saved gaussian .ply file")
+config_instance = RandomCameraDataModuleConfig()
 
-loader = RandomCameraDataModule().val_dataloader()
+# Convert the instance to a dictionary
+config_dict = asdict(config_instance)
+
+print(config_dict)
+
+loader = RandomCameraDataModule(config_dict).val_dataloader()
 for batch in loader:
     images = dreamer.forward(batch)['comp_rgb']
     print(images)
