@@ -58,7 +58,7 @@ system_config = {
 }
 
 
-point_cloud = o3d.io.read_point_cloud("/home/xueyingjia/threestudio/outputs/gs-sds-generation/a_staircase_in_a_small_white_building,_featuring_a_white_pedestal,_a_white_box_on_a_table,_and_recessed_ceiling_lights.@20240425-230712/save/point_cloud.ply")
+point_cloud = o3d.io.read_point_cloud("/home/cyan/threestudio/outputs/gs-sds-generation/a_staircase_in_a_small_white_building,_featuring_a_white_pedestal,_a_white_box_on_a_table,_and_recessed_ceiling_lights.@20240425-230712/save/point_cloud.ply")
 colors = np.asarray(point_cloud.colors)
 points = np.asarray(point_cloud.points)
 normals = np.asarray(point_cloud.normals)
@@ -67,7 +67,7 @@ pcd = BasicPointCloud(points, colors, normals)
 
 dreamer = GaussianDreamer(system_config)
 dreamer.configure()
-dreamer.gaussian.create_from_pcd(pcd)
+dreamer.gaussian.create_from_pcd(pcd, 0)
 ###### or #####
 # dreamer.gaussian.load_ply("....saved gaussian .ply file")
 
