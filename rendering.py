@@ -104,6 +104,7 @@ pcd = BasicPointCloud(points, colors, normals)
 dreamer = GaussianDreamer(system_config)
 dreamer.configure()
 dreamer.gaussian.create_from_pcd(pcd, 0)
+dreamer.configure_optimizers()
 ###### or #####
 # dreamer.gaussian.load_ply("....saved gaussian .ply file")
 config_instance = RandomCameraDataModuleConfig()
