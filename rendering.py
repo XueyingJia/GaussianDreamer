@@ -59,6 +59,7 @@ system_config = {
     }
 }
 
+@dataclass
 class RandomCameraDataModuleConfig:
     # height, width, and batch_size should be Union[int, List[int]]
     # but OmegaConf does not support Union of containers
